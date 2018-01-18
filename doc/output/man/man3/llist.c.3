@@ -1,0 +1,86 @@
+.TH "src/llist.c" 3 "Tue Jan 2 2018" "TCAT" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+src/llist.c \- Regroupe les fonctions relatives a la liste chainee generique\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <stdlib\&.h>\fP
+.br
+\fC#include <stdio\&.h>\fP
+.br
+\fC#include 'llist\&.h'\fP
+.br
+
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBllist\fP * \fB_add_element\fP (\fBllist\fP *l, void *ptr)"
+.br
+.RI "\fIFonction permettant d'ajouter un element pointe par ptr a la fin d'une liste chainee l\&. \fP"
+.ti -1c
+.RI "\fBllist\fP * \fB_delete_element\fP (\fBllist\fP *l, void *ptr)"
+.br
+.RI "\fIFonction permettant de supprimer un element pointe par ptr dans une liste chainee l\&. \fP"
+.in -1c
+.SH "Detailed Description"
+.PP 
+Regroupe les fonctions relatives a la liste chainee generique\&. 
+
+
+.PP
+\fBAuthor:\fP
+.RS 4
+Audrey Muratore 
+.RE
+.PP
+\fBDate:\fP
+.RS 4
+2 Janvier 2018 
+.RE
+.PP
+
+.SH "Function Documentation"
+.PP 
+.SS "_add_element (\fBllist\fP * l, void * ptr)"
+
+.PP
+Fonction permettant d'ajouter un element pointe par ptr a la fin d'une liste chainee l\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIl\fP est une liste chainee de type llist*\&. 
+.br
+\fIptr\fP est un pointeur sur un element ou structure\&. 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+Renvoit la nouvelle liste\&. 
+.RE
+.PP
+
+.SS "_delete_element (\fBllist\fP * l, void * ptr)"
+
+.PP
+Fonction permettant de supprimer un element pointe par ptr dans une liste chainee l\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIl\fP est une liste chainee de type llist*\&. 
+.br
+\fIptr\fP est un pointeur sur un element ou structure\&. 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+Renvoit la nouvelle liste chainee\&. 
+.RE
+.PP
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for TCAT from the source code\&.

@@ -1,0 +1,34 @@
+.TH "s_destinations" 3 "Tue Jan 2 2018" "TCAT" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+s_destinations \- Definition d'une structure de donnee permettant de stocker en memoire les destinations possibles d'une ligne\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <db\&.h>\fP
+.SS "Data Fields"
+
+.in +1c
+.ti -1c
+.RI "char \fBname\fP [COL_SIZE]"
+.br
+.ti -1c
+.RI "\fBllist\fP * \fBstops\fP"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+Definition d'une structure de donnee permettant de stocker en memoire les destinations possibles d'une ligne\&. 
+.SH "Field Documentation"
+.PP 
+.SS "char name[COL_SIZE]"
+Chaine de caracteres permettant de stocker le nom d'une destination\&. 
+.SS "\fBllist\fP* \fBstops\fP"
+Pointeur sur le type llist\&. stops est une lsite chainee d'arrets de bus\&. 
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for TCAT from the source code\&.

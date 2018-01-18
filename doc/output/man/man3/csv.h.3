@@ -1,0 +1,108 @@
+.TH "src/csv.h" 3 "Tue Jan 2 2018" "TCAT" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+src/csv.h \- Fichier header de \fBcsv\&.c\fP\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+\fC#include 'llist\&.h'\fP
+.br
+
+.SS "Data Structures"
+
+.in +1c
+.ti -1c
+.RI "struct \fBs_row\fP"
+.br
+.RI "\fIDefinition d'une structure de donnee permettant de stocker en memoire les lignes d'un fichier\&. \fP"
+.ti -1c
+.RI "struct \fBs_col\fP"
+.br
+.RI "\fIDefinition d'une structure de donnee permettant de stocker en memoire les colonnes issues d'une ligne isolee\&. \fP"
+.in -1c
+.SS "Macros"
+
+.in +1c
+.ti -1c
+.RI "#define \fBLINE_SIZE\fP   4096"
+.br
+.RI "\fIDefini la taille maximale d'une ligne pouvant être lue dans un fichier\&. \fP"
+.ti -1c
+.RI "#define \fBCOL_SIZE\fP   64"
+.br
+.in -1c
+.SS "Typedefs"
+
+.in +1c
+.ti -1c
+.RI "typedef struct \fBs_row\fP \fBrow\fP"
+.br
+.ti -1c
+.RI "typedef struct \fBs_col\fP \fBcol\fP"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBllist\fP * \fBread_csv\fP (char *name)"
+.br
+.RI "\fIFonction permettant de stocker les donnees d'un fichier CSV dans une liste chainee\&. La liste chainee cree est de type llist et prend en compte les lignes et les colonnes du fichier source\&. \fP"
+.ti -1c
+.RI "void \fBwrite_csv\fP (char *name, \fBllist\fP *tab)"
+.br
+.RI "\fIFonction permettant d'ecrire les donnees d'une liste chainee dans un fichier au format CSV\&. La liste chainee envoyee est de type llist et utilise necessairement les structures col et row comme donnees\&. \fP"
+.in -1c
+.SH "Detailed Description"
+.PP 
+Fichier header de \fBcsv\&.c\fP\&. 
+
+
+.PP
+\fBAuthor:\fP
+.RS 4
+Audrey Muratore 
+.RE
+.PP
+\fBDate:\fP
+.RS 4
+2 janvier 2018
+.RE
+.PP
+Regroupe les prototypes, defines et structures de donnees relatives a la liste chainee generique 
+.SH "Function Documentation"
+.PP 
+.SS "\fBllist\fP* read_csv (char * name)"
+
+.PP
+Fonction permettant de stocker les donnees d'un fichier CSV dans une liste chainee\&. La liste chainee cree est de type llist et prend en compte les lignes et les colonnes du fichier source\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIname\fP est une chaine de caractere indiquant le fichier de lecture\&. 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+Renvoit un pointeur sur le type llist permettant d'acceder a l'ensemble des donnees de la liste chainee\&. 
+.RE
+.PP
+
+.SS "void write_csv (char * name, \fBllist\fP * tab)"
+
+.PP
+Fonction permettant d'ecrire les donnees d'une liste chainee dans un fichier au format CSV\&. La liste chainee envoyee est de type llist et utilise necessairement les structures col et row comme donnees\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIname\fP est une chaine de caractere indiquant le fichier de lecture\&. 
+.br
+\fItab\fP est un pointeur sur le type llist permettant d'acceder a l'ensemble des donnees de la liste chainee\&. 
+.RE
+.PP
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for TCAT from the source code\&.

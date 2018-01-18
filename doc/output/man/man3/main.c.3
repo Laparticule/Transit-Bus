@@ -1,0 +1,364 @@
+.TH "src/main.c" 3 "Tue Jan 2 2018" "TCAT" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+src/main.c \- Fichier principal du projet\&. Regroupe les fonctions relatives a l'interface et a l'affichage\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <stdio\&.h>\fP
+.br
+\fC#include <stdlib\&.h>\fP
+.br
+\fC#include <string\&.h>\fP
+.br
+\fC#include <time\&.h>\fP
+.br
+\fC#include 'llist\&.h'\fP
+.br
+\fC#include 'db\&.h'\fP
+.br
+\fC#include 'csv\&.h'\fP
+.br
+
+.SS "Macros"
+
+.in +1c
+.ti -1c
+.RI "#define \fBcolor\fP(param)   printf('\\033[%sm',param)"
+.br
+.RI "\fIUne macro pour changer la couleur de l'affichage\&. \fP"
+.ti -1c
+.RI "#define \fBclean_buffer\fP   while (getchar() != '\\n')"
+.br
+.ti -1c
+.RI "#define \fBscanff\fP(str)   scanf('%[^\\n]%*c', str)"
+.br
+.ti -1c
+.RI "#define \fBuser_menu\fP   printf('1 \- Lister les prochains bus pour mon arret\\n2 \- Consulter les horaires d'un arret\\n3 \- Consulter les horaires d'une ligne\\n4 \- Telecharger les horaires d'une ligne\\n5 \- Options avancees\\n6 \- Quitter\\n\\nVotre choix: ')"
+.br
+.ti -1c
+.RI "#define \fBadmin_menu\fP   printf('1 \- Creer une ligne\\n2 \- Modifier une ligne\\n3 \- Supprimer une ligne\\n4 \- Creer une destination\\n5 \- Modifier une destination\\n6 \- Supprimer une destination\\n7 \- Ajouter un arret\\n8 \- Modifier un arret\\n9 \- Supprimer un arret\\n10 \- Ajouter un horaire\\n11 \- Modifier un horaire\\n12 \- Supprimer un horaire\\n13 \- Charger la configuration d'une ligne\\n14 \- Quitter le mode administrateur\\n\\nVotre choix: ')"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "void \fBprint_line\fP (\fBllist\fP *l, int nb, char dest_name[])"
+.br
+.RI "\fIFonction permettant d'afficher tous les horaires d'une ligne (pour une destination de ligne donnee) \fP"
+.ti -1c
+.RI "void \fBprint_stop\fP (\fBllist\fP *l, char stop_name[])"
+.br
+.RI "\fIFonction permettant d'afficher tous les horaires des lignes pour un arret donne\&. \fP"
+.ti -1c
+.RI "void \fBprint_stop_next_sched\fP (\fBllist\fP *l, char stop_name[])"
+.br
+.ti -1c
+.RI "void \fBdownload_line\fP (\fBllist\fP *l, int nb, char *dest_name, char *file_name)"
+.br
+.RI "\fIFonction permettant de sauvegarder les informations d'une ligne pour une destination dans un fichier\&. \fP"
+.ti -1c
+.RI "void \fBload_line\fP (\fBllist\fP *l)"
+.br
+.RI "\fIFonction permettant de charger les informations d'une ligne pour une destination a partir d'un fichier\&. \fP"
+.ti -1c
+.RI "void \fBupdate_sched\fP (\fBllist\fP *l)"
+.br
+.RI "\fIFonction permettant de modifier un horaire a partir de diverses informations demandees a l'utilisateur\&. \fP"
+.ti -1c
+.RI "void \fBadd_sched\fP (\fBllist\fP *l)"
+.br
+.RI "\fIFonction permettant d'ajouter un horaire a partir de diverses informations demandees a l'utilisateur\&. \fP"
+.ti -1c
+.RI "void \fBdelete_sched\fP (\fBllist\fP *l)"
+.br
+.RI "\fIFonction permettant de supprimer un horaire en fonction de diverses informations demandees a l'utilisateur\&. \fP"
+.ti -1c
+.RI "void \fBdelete_stop\fP (\fBllist\fP *l)"
+.br
+.RI "\fIFonction permettant de supprimer un arret en fonction de diverses informations demandees a l'utilisateur\&. \fP"
+.ti -1c
+.RI "void \fBadd_stop\fP (\fBllist\fP *l)"
+.br
+.RI "\fIFonction permettant de supprimer un arret en fonction de diverses informations demandees a l'utilisateur\&. \fP"
+.ti -1c
+.RI "void \fBupdate_stop\fP (\fBllist\fP *l)"
+.br
+.RI "\fIFonction permettant de modifier un arret en fonction de diverses informations demandees a l'utilisateur\&. \fP"
+.ti -1c
+.RI "void \fBdelete_dest\fP (\fBllist\fP *l)"
+.br
+.RI "\fIFonction permettant de supprimer une destination en fonction de diverses informations demandees a l'utilisateur\&. \fP"
+.ti -1c
+.RI "void \fBadd_dest\fP (\fBllist\fP *l)"
+.br
+.RI "\fIFonction permettant d'ajouter une destination en fonction de diverses informations demandees a l'utilisateur\&. \fP"
+.ti -1c
+.RI "void \fBupdate_dest\fP (\fBllist\fP *l)"
+.br
+.RI "\fIFonction permettant de modifier une destination en fonction de diverses informations demandees a l'utilisateur\&. \fP"
+.ti -1c
+.RI "void \fBdelete_line\fP (\fBllist\fP *l)"
+.br
+.RI "\fIFonction permettant de supprimer une ligne en fonction de diverses informations demandees a l'utilisateur\&. \fP"
+.ti -1c
+.RI "void \fBadd_line\fP (\fBllist\fP *l)"
+.br
+.RI "\fIFonction permettant d'ajouter une ligne en fonction de diverses informations demandees a l'utilisateur\&. \fP"
+.ti -1c
+.RI "void \fBupdate_line\fP (\fBllist\fP *l)"
+.br
+.RI "\fIFonction permettant de modifier le numero d'une ligne en fonction de diverses informations demandees a l'utilisateur\&. \fP"
+.ti -1c
+.RI "int \fBmain\fP (int argc, char *argv[])"
+.br
+.RI "\fIFonction\&. \fP"
+.ti -1c
+.RI "void \fBprint_stop_next_sched\fP (\fBllist\fP *l, char *stop_name)"
+.br
+.RI "\fIFonction permettant d'afficher le prochain arret pour un arret donne\&. La notion de prochain arret est calculee en fonction de l'heure locale\&. \fP"
+.in -1c
+.SH "Detailed Description"
+.PP 
+Fichier principal du projet\&. Regroupe les fonctions relatives a l'interface et a l'affichage\&. 
+
+
+.PP
+\fBAuthor:\fP
+.RS 4
+Audrey Muratore 
+.RE
+.PP
+\fBDate:\fP
+.RS 4
+2 Janvier 2018 
+.RE
+.PP
+
+.SH "Function Documentation"
+.PP 
+.SS "void add_dest (\fBllist\fP * l)"
+
+.PP
+Fonction permettant d'ajouter une destination en fonction de diverses informations demandees a l'utilisateur\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIl\fP est un pointeur sur llist 
+.RE
+.PP
+
+.SS "void add_line (\fBllist\fP * l)"
+
+.PP
+Fonction permettant d'ajouter une ligne en fonction de diverses informations demandees a l'utilisateur\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIl\fP est un pointeur sur llist 
+.RE
+.PP
+
+.SS "void add_sched (\fBllist\fP * l)"
+
+.PP
+Fonction permettant d'ajouter un horaire a partir de diverses informations demandees a l'utilisateur\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIl\fP est un pointeur sur llist\&. 
+.RE
+.PP
+
+.SS "void add_stop (\fBllist\fP * l)"
+
+.PP
+Fonction permettant de supprimer un arret en fonction de diverses informations demandees a l'utilisateur\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIl\fP est un pointeur sur llist 
+.RE
+.PP
+
+.SS "void delete_dest (\fBllist\fP * l)"
+
+.PP
+Fonction permettant de supprimer une destination en fonction de diverses informations demandees a l'utilisateur\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIl\fP est un pointeur sur llist 
+.RE
+.PP
+
+.SS "void delete_line (\fBllist\fP * l)"
+
+.PP
+Fonction permettant de supprimer une ligne en fonction de diverses informations demandees a l'utilisateur\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIl\fP est un pointeur sur llist 
+.RE
+.PP
+
+.SS "void delete_sched (\fBllist\fP * l)"
+
+.PP
+Fonction permettant de supprimer un horaire en fonction de diverses informations demandees a l'utilisateur\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIl\fP est un pointeur sur llist\&. 
+.RE
+.PP
+
+.SS "void delete_stop (\fBllist\fP * l)"
+
+.PP
+Fonction permettant de supprimer un arret en fonction de diverses informations demandees a l'utilisateur\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIl\fP est un pointeur sur llist 
+.RE
+.PP
+
+.SS "void download_line (\fBllist\fP * l, int nb, char * dest_name, char * file_name)"
+
+.PP
+Fonction permettant de sauvegarder les informations d'une ligne pour une destination dans un fichier\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIl\fP est un pointeur sur llist 
+.br
+\fIdest_name\fP est le nom de la destination 
+.br
+\fInb\fP est le numero de la ligne 
+.br
+\fIfile_name\fP est le nom du fichier 
+.RE
+.PP
+
+.SS "void load_line (\fBllist\fP * l)"
+
+.PP
+Fonction permettant de charger les informations d'une ligne pour une destination a partir d'un fichier\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIl\fP est un pointeur sur llist 
+.RE
+.PP
+
+.SS "int main (int argc, char * argv[])"
+
+.PP
+Fonction\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIargc\fP est un entier comptant le nombre d'arguments 
+.br
+\fIargv\fP est un tableau de caractere listant les arguments 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+Renvoit EXIT_SUCCESS ou EXIT_FAILURE\&. 
+.RE
+.PP
+
+.SS "void print_line (\fBllist\fP * l, int nb, char dest_name[])"
+
+.PP
+Fonction permettant d'afficher tous les horaires d'une ligne (pour une destination de ligne donnee) 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIl\fP est un pointeur sur llist permettant d'acceder a l'ensemble des donnees des lignes\&. 
+.br
+\fInb\fP est le numero de la ligne recherchee 
+.br
+\fIdest_name\fP est le nom de la destination recherchee 
+.RE
+.PP
+
+.SS "void print_stop (\fBllist\fP * l, char stop_name[])"
+
+.PP
+Fonction permettant d'afficher tous les horaires des lignes pour un arret donne\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIl\fP est un pointeur sur llist permettant d'acceder a l'ensemble des donnees des lignes\&. 
+.br
+\fIstop_name\fP est le nom de l'arret de bus recherche 
+.RE
+.PP
+
+.SS "print_stop_next_sched (\fBllist\fP * l, char * stop_name)"
+
+.PP
+Fonction permettant d'afficher le prochain arret pour un arret donne\&. La notion de prochain arret est calculee en fonction de l'heure locale\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIl\fP est un pointeur sur llist permettant d'acceder a l'ensemble des donnees des lignes\&. 
+.br
+\fIstop_name\fP est le nom de l'arret de bus 
+.RE
+.PP
+
+.SS "void update_dest (\fBllist\fP * l)"
+
+.PP
+Fonction permettant de modifier une destination en fonction de diverses informations demandees a l'utilisateur\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIl\fP est un pointeur sur llist 
+.RE
+.PP
+
+.SS "void update_line (\fBllist\fP * l)"
+
+.PP
+Fonction permettant de modifier le numero d'une ligne en fonction de diverses informations demandees a l'utilisateur\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIl\fP est un pointeur sur llist 
+.RE
+.PP
+
+.SS "void update_sched (\fBllist\fP * l)"
+
+.PP
+Fonction permettant de modifier un horaire a partir de diverses informations demandees a l'utilisateur\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIl\fP est un pointeur sur llist\&. Contient toutes les donnees relatives aux lignes\&. 
+.RE
+.PP
+
+.SS "void update_stop (\fBllist\fP * l)"
+
+.PP
+Fonction permettant de modifier un arret en fonction de diverses informations demandees a l'utilisateur\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIl\fP est un pointeur sur llist 
+.RE
+.PP
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for TCAT from the source code\&.

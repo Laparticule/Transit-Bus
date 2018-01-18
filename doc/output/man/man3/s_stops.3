@@ -1,0 +1,34 @@
+.TH "s_stops" 3 "Tue Jan 2 2018" "TCAT" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+s_stops \- Definition d'une structure de donnee permettant de stocker en memoire les arrets de bus pour une destination donnee\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <db\&.h>\fP
+.SS "Data Fields"
+
+.in +1c
+.ti -1c
+.RI "char \fBname\fP [COL_SIZE]"
+.br
+.ti -1c
+.RI "\fBllist\fP * \fBschedule\fP"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+Definition d'une structure de donnee permettant de stocker en memoire les arrets de bus pour une destination donnee\&. 
+.SH "Field Documentation"
+.PP 
+.SS "char name[COL_SIZE]"
+Chaine de caractere permettant de stocker le nom d'un arret\&. 
+.SS "\fBllist\fP* \fBschedule\fP"
+Pointeur sur le type llist\&. schedule est une liste chainee d'horaires\&. 
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for TCAT from the source code\&.

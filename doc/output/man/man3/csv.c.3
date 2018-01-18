@@ -1,0 +1,83 @@
+.TH "src/csv.c" 3 "Tue Jan 2 2018" "TCAT" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+src/csv.c \- Regroupe les fonctions relatives a la lecture et a l'ecriture des fichiers \&.csv\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <stdio\&.h>\fP
+.br
+\fC#include <stdlib\&.h>\fP
+.br
+\fC#include <string\&.h>\fP
+.br
+\fC#include 'csv\&.h'\fP
+.br
+\fC#include 'llist\&.h'\fP
+.br
+
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBllist\fP * \fBread_csv\fP (char *name)"
+.br
+.RI "\fIFonction permettant de stocker les donnees d'un fichier CSV dans une liste chainee\&. La liste chainee cree est de type llist et prend en compte les lignes et les colonnes du fichier source\&. \fP"
+.ti -1c
+.RI "void \fBwrite_csv\fP (char *name, \fBllist\fP *tab)"
+.br
+.RI "\fIFonction permettant d'ecrire les donnees d'une liste chainee dans un fichier au format CSV\&. La liste chainee envoyee est de type llist et utilise necessairement les structures col et row comme donnees\&. \fP"
+.in -1c
+.SH "Detailed Description"
+.PP 
+Regroupe les fonctions relatives a la lecture et a l'ecriture des fichiers \&.csv\&. 
+
+
+.PP
+\fBAuthor:\fP
+.RS 4
+Audrey Muratore 
+.RE
+.PP
+\fBDate:\fP
+.RS 4
+2 Janvier 2018 
+.RE
+.PP
+
+.SH "Function Documentation"
+.PP 
+.SS "\fBllist\fP * read_csv (char * name)"
+
+.PP
+Fonction permettant de stocker les donnees d'un fichier CSV dans une liste chainee\&. La liste chainee cree est de type llist et prend en compte les lignes et les colonnes du fichier source\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIname\fP est une chaine de caractere indiquant le fichier de lecture\&. 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+Renvoit un pointeur sur le type llist permettant d'acceder a l'ensemble des donnees de la liste chainee\&. 
+.RE
+.PP
+
+.SS "void write_csv (char * name, \fBllist\fP * tab)"
+
+.PP
+Fonction permettant d'ecrire les donnees d'une liste chainee dans un fichier au format CSV\&. La liste chainee envoyee est de type llist et utilise necessairement les structures col et row comme donnees\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIname\fP est une chaine de caractere indiquant le fichier de lecture\&. 
+.br
+\fItab\fP est un pointeur sur le type llist permettant d'acceder a l'ensemble des donnees de la liste chainee\&. 
+.RE
+.PP
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for TCAT from the source code\&.

@@ -1,0 +1,116 @@
+.TH "src/llist.h" 3 "Tue Jan 2 2018" "TCAT" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+src/llist.h \- Fichier header de \fBllist\&.c\fP\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.SS "Data Structures"
+
+.in +1c
+.ti -1c
+.RI "struct \fBs_list\fP"
+.br
+.RI "\fIDefinition d'une structure generique pour les listes chainees\&. \fP"
+.in -1c
+.SS "Macros"
+
+.in +1c
+.ti -1c
+.RI "#define \fBadd_element\fP(l,  ptr)   l = \fB_add_element\fP(l, ptr)"
+.br
+.RI "\fIUne macro simplifiant la syntaxe de la fonction _add_element(l, ptr) \fP"
+.ti -1c
+.RI "#define \fBdelete_element\fP(l,  ptr)   l = \fB_delete_element\fP(l, ptr)"
+.br
+.RI "\fIUne macro simplifiant la syntaxe de la fonction _delete_element(l, ptr) \fP"
+.ti -1c
+.RI "#define \fBfor_each_list\fP(l,  tmp)   for(\fBllist\fP *tmp = l; tmp != NULL; tmp = tmp\->next)"
+.br
+.in -1c
+.SS "Typedefs"
+
+.in +1c
+.ti -1c
+.RI "typedef struct \fBs_list\fP \fBllist\fP"
+.br
+.RI "\fIUn type permettant de manipuler plus facilement la structure \fBs_row\fP\&. \fP"
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBllist\fP * \fB_add_element\fP (\fBllist\fP *l, void *ptr)"
+.br
+.RI "\fIFonction permettant d'ajouter un element pointe par ptr a la fin d'une liste chainee l\&. \fP"
+.ti -1c
+.RI "\fBllist\fP * \fB_delete_element\fP (\fBllist\fP *l, void *ptr)"
+.br
+.RI "\fIFonction permettant de supprimer un element pointe par ptr dans une liste chainee l\&. \fP"
+.in -1c
+.SH "Detailed Description"
+.PP 
+Fichier header de \fBllist\&.c\fP\&. 
+
+
+.PP
+\fBAuthor:\fP
+.RS 4
+Audrey Muratore 
+.RE
+.PP
+\fBDate:\fP
+.RS 4
+2 janvier 2018
+.RE
+.PP
+Regroupe les prototypes, defines et structures de donnees relatives a la liste chainee generique 
+.SH "Typedef Documentation"
+.PP 
+.SS "typedef struct \fBs_list\fP void *data struct \fBs_list\fP *next \fBllist\fP"
+
+.PP
+Un type permettant de manipuler plus facilement la structure \fBs_row\fP\&. Un type permettant de manipuler plus facilement la structure \fBs_list\fP\&. 
+.SH "Function Documentation"
+.PP 
+.SS "\fBllist\fP* _add_element (\fBllist\fP * l, void * ptr)"
+
+.PP
+Fonction permettant d'ajouter un element pointe par ptr a la fin d'une liste chainee l\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIl\fP est une liste chainee de type llist*\&. 
+.br
+\fIptr\fP est un pointeur sur un element ou structure\&. 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+Renvoit la nouvelle liste\&. 
+.RE
+.PP
+
+.SS "\fBllist\fP* _delete_element (\fBllist\fP * l, void * ptr)"
+
+.PP
+Fonction permettant de supprimer un element pointe par ptr dans une liste chainee l\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIl\fP est une liste chainee de type llist*\&. 
+.br
+\fIptr\fP est un pointeur sur un element ou structure\&. 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+Renvoit la nouvelle liste chainee\&. 
+.RE
+.PP
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for TCAT from the source code\&.

@@ -1,0 +1,493 @@
+.TH "src/db.c" 3 "Tue Jan 2 2018" "TCAT" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+src/db.c \- Regroupe les fonctions permettant de stocker en memoire la base de donnee et de la reecrire entierement dans des fichiers csv\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <stdlib\&.h>\fP
+.br
+\fC#include <stdio\&.h>\fP
+.br
+\fC#include <string\&.h>\fP
+.br
+\fC#include 'db\&.h'\fP
+.br
+\fC#include 'llist\&.h'\fP
+.br
+\fC#include 'csv\&.h'\fP
+.br
+
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBllist\fP * \fBread_db\fP (void)"
+.br
+.RI "\fIStocke l'ensemble de la base de donnee (fichiers \&.csv) dans une structure en memoire\&. \fP"
+.ti -1c
+.RI "void \fBwrite_db\fP (\fBllist\fP *l)"
+.br
+.RI "\fIEcrase et reecrit l'ensemble des donnees en memoire dans des fichiers au format \&.csv\&. \fP"
+.ti -1c
+.RI "char * \fBspace_to_underscore\fP (char *str)"
+.br
+.RI "\fIFonction remplaçant les espaces par des underscores\&. \fP"
+.ti -1c
+.RI "int \fBcheck_line_existence\fP (\fBllist\fP *l, int nb_line)"
+.br
+.RI "\fIFonction permettant de rechercher si une ligne de bus donnee existe en memoire\&. \fP"
+.ti -1c
+.RI "int \fBcheck_dest_existence\fP (\fBllist\fP *l, int nb_line, char *dest_name)"
+.br
+.RI "\fIFonction permettant de rechercher si une destination existe pour une ligne donnee\&. \fP"
+.ti -1c
+.RI "int \fBcheck_stop_existence\fP (\fBllist\fP *l, int nb_line, char *dest_name, char *stop_name)"
+.br
+.RI "\fIFonction permettant de rechercher si un arret de bus donne existe pour une ligne et une direction donnee\&. \fP"
+.ti -1c
+.RI "int \fBcheck_sched_existence\fP (\fBllist\fP *l, int nb_line, char *dest_name, char *stop_name, char *sched)"
+.br
+.RI "\fIFonction permettant de rechercher si un horaire precis existe pour un arret donne d'une ligne\&. \fP"
+.ti -1c
+.RI "void \fBupdate_sched_db\fP (\fBllist\fP *l, int nb_line, char *dest_name, char *stop_name, char *oldsched, char *newsched)"
+.br
+.ti -1c
+.RI "void \fBupdate_stop_db\fP (\fBllist\fP *l, char *old_stop_name, char *new_stop_name)"
+.br
+.ti -1c
+.RI "\fBllist\fP * \fBadd_sched_db\fP (\fBllist\fP *l, int nb_line, char *dest_name, char *stop_name, char *new_sched)"
+.br
+.RI "\fIFonction permettant d'ajouter un horaire\&. \fP"
+.ti -1c
+.RI "\fBllist\fP * \fBdelete_sched_db\fP (\fBllist\fP *l, int nb_line, char *dest_name, char *stop_name, char *sched)"
+.br
+.RI "\fIFonction permettant de supprimer un horaire\&. \fP"
+.ti -1c
+.RI "\fBllist\fP * \fBdelete_stop_db\fP (\fBllist\fP *l, int nb_line, char *dest_name, char *stop_name)"
+.br
+.RI "\fIFonction supprimant un arret dans la base de donnees\&. \fP"
+.ti -1c
+.RI "\fBllist\fP * \fBdelete_dest_db\fP (\fBllist\fP *l, int nb_line, char *dest_name)"
+.br
+.RI "\fIFonction permettant de supprimer une destination donnee\&. \fP"
+.ti -1c
+.RI "\fBllist\fP * \fBdelete_line_db\fP (\fBllist\fP *l, int nb_line)"
+.br
+.RI "\fIFonction permettant de supprimer une ligne de la base de donnee\&. \fP"
+.ti -1c
+.RI "void \fBupdate_line_db\fP (\fBllist\fP *l, int old_line, int new_line)"
+.br
+.RI "\fIFonction permettant de modifier une ligne\&. \fP"
+.ti -1c
+.RI "void \fBupdate_dest_db\fP (\fBllist\fP *l, int nb_line, char *old_name, char *new_name)"
+.br
+.RI "\fIFonction permettant de modifier le nom d'une destination\&. \fP"
+.ti -1c
+.RI "\fBllist\fP * \fBadd_dest_db\fP (\fBllist\fP *l, int nb_line, char *dest_name)"
+.br
+.RI "\fIFonction permettant d'ajouter une nouvelle destination\&. \fP"
+.ti -1c
+.RI "void \fBadd_line_db\fP (\fBllist\fP *l, int nb_line)"
+.br
+.RI "\fIFonction permettant d'ajouter une nouvelle ligne\&. \fP"
+.ti -1c
+.RI "\fBllist\fP * \fBadd_stop_db\fP (\fBllist\fP *l, int nb_line, char *dest_name, char *stop_name)"
+.br
+.RI "\fIFonction permettant d'ajouter un nouvel arret\&. \fP"
+.in -1c
+.SH "Detailed Description"
+.PP 
+Regroupe les fonctions permettant de stocker en memoire la base de donnee et de la reecrire entierement dans des fichiers csv\&. 
+
+Fichier header de \fBdb\&.c\fP\&.
+.PP
+\fBAuthor:\fP
+.RS 4
+Audrey Muratore 
+.RE
+.PP
+\fBDate:\fP
+.RS 4
+2 Janvier 2018
+.RE
+.PP
+\fBAuthor:\fP
+.RS 4
+Audrey Muratore 
+.RE
+.PP
+\fBDate:\fP
+.RS 4
+2 Janvier 2018
+.RE
+.PP
+Regroupe les prototypes, defines et structures de donnees relatives aux fonctions permettant de stocker en memoire et reecrire la base de donnee\&. 
+.SH "Function Documentation"
+.PP 
+.SS "\fBllist\fP * add_dest_db (\fBllist\fP * l, int nb_line, char * dest_name)"
+
+.PP
+Fonction permettant d'ajouter une nouvelle destination\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIl\fP est un pointeur sur llist 
+.br
+\fInb_line\fP est le numero de la ligne 
+.br
+\fIdest_name\fP est le nom de la destination 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+Renvoit un pointeur sur llist 
+.RE
+.PP
+
+.SS "void add_line_db (\fBllist\fP * l, int nb_line)"
+
+.PP
+Fonction permettant d'ajouter une nouvelle ligne\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIl\fP est un pointeur sur llist 
+.br
+\fInb_line\fP est le numero de la ligne 
+.RE
+.PP
+
+.SS "\fBllist\fP * add_sched_db (\fBllist\fP * l, int nb_line, char * dest_name, char * stop_name, char * new_sched)"
+
+.PP
+Fonction permettant d'ajouter un horaire\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIl\fP est un pointeur sur llist 
+.br
+\fInb_line\fP est le numero de la ligne 
+.br
+\fIdest_name\fP est le nom de la destination 
+.br
+\fIstop_name\fP est le nom de l'arret 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+Renvoit un pointeur sur llist\&.
+.RE
+.PP
+\fBParameters:\fP
+.RS 4
+\fIl\fP est un pointeur sur llist 
+.br
+\fInb_line\fP est le numero de la ligne 
+.br
+\fIdest_name\fP est le nom de la destination 
+.br
+\fIstop_name\fP est le nom de l'arret 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+renvoit un pointeur sur llist\&. 
+.RE
+.PP
+
+.SS "\fBllist\fP * add_stop_db (\fBllist\fP * l, int nb_line, char * dest_name, char * stop_name)"
+
+.PP
+Fonction permettant d'ajouter un nouvel arret\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIl\fP est un pointeur sur llist 
+.br
+\fInb_line\fP est le numero de la ligne 
+.br
+\fIdest_name\fP est le nom de la destination 
+.br
+\fIstop_name\fP est le nom de l'arret 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+Renvoit un pointeur sur llist 
+.RE
+.PP
+
+.SS "check_dest_existence (\fBllist\fP * l, int nb_line, char * dest_name)"
+
+.PP
+Fonction permettant de rechercher si une destination existe pour une ligne donnee\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIl\fP est un pointeur sur llist\&. Permet d'acceder a toutes les informations des lignes\&. 
+.br
+\fInb_line\fP est le numero de la ligne recherchee\&. 
+.br
+\fIdest_name\fP est le nom de la destination\&. 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+Renvoit 1 en cas de succes (destination trouvee), 0 sinon\&. 
+.RE
+.PP
+
+.SS "check_line_existence (\fBllist\fP * l, int nb_line)"
+
+.PP
+Fonction permettant de rechercher si une ligne de bus donnee existe en memoire\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIl\fP est un pointeur sur llist\&. Permet d'acceder a toutes les informations des lignes\&. 
+.br
+\fInb_line\fP est le numero de la ligne recherchee 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+Renvoit 1 en cas de succes (ligne trouvee), 0 sinon 
+.RE
+.PP
+
+.SS "check_sched_existence (\fBllist\fP * l, int nb_line, char * dest_name, char * stop_name, char * sched)"
+
+.PP
+Fonction permettant de rechercher si un horaire precis existe pour un arret donne d'une ligne\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIl\fP est un pointeur sur llist\&. Permet d'acceder a toutes les informations des lignes\&. 
+.br
+\fInb_line\fP est le numero de la ligne recherchee\&. 
+.br
+\fIdest_name\fP est le nom de la destination\&. 
+.br
+\fIstop_name\fP est le nom de l'arret de bus\&. 
+.br
+\fIsched\fP est un horaire\&. 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+Renvoit 1 en cas de succes (horaire trouve), 0 sinon\&. 
+.RE
+.PP
+
+.SS "check_stop_existence (\fBllist\fP * l, int nb_line, char * dest_name, char * stop_name)"
+
+.PP
+Fonction permettant de rechercher si un arret de bus donne existe pour une ligne et une direction donnee\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIl\fP est un pointeur sur llist\&. Permet d'acceder a toutes les informations des lignes\&. 
+.br
+\fInb_line\fP est le numero de la ligne recherchee\&. 
+.br
+\fIdest_name\fP est le nom de la destination\&. 
+.br
+\fIstop_name\fP est le nom de l'arret de bus\&. 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+Renvoit 1 en cas de succes (arret trouve), 0 sinon\&. 
+.RE
+.PP
+
+.SS "\fBllist\fP * delete_dest_db (\fBllist\fP * l, int nb_line, char * dest_name)"
+
+.PP
+Fonction permettant de supprimer une destination donnee\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIl\fP est un pointeur sur llist 
+.br
+\fInb_line\fP est le numero de la ligne 
+.br
+\fIdest_name\fP est le nom de la destination 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+Renvoit un pointeur llist 
+.RE
+.PP
+
+.SS "\fBllist\fP * delete_line_db (\fBllist\fP * l, int nb_line)"
+
+.PP
+Fonction permettant de supprimer une ligne de la base de donnee\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIl\fP est un pointeur sur llist\&. 
+.br
+\fInb_line\fP est le numero de la ligne 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+Renvoit un pointeur sur llist\&. 
+.RE
+.PP
+
+.SS "\fBllist\fP * delete_sched_db (\fBllist\fP * l, int nb_line, char * dest_name, char * stop_name, char * sched)"
+
+.PP
+Fonction permettant de supprimer un horaire\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIl\fP est un pointeur sur llist 
+.br
+\fInb_line\fP est le numero de la ligne 
+.br
+\fIdest_name\fP est le nom de la destination 
+.br
+\fIstop_name\fP est le nom de l'arret 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+Renvoit un pointeur sur llist\&.
+.RE
+.PP
+\fBParameters:\fP
+.RS 4
+\fIl\fP est un pointeur sur llist 
+.br
+\fInb_line\fP est le numero de la ligne 
+.br
+\fIdest_name\fP est le nom de la destination 
+.br
+\fIstop_name\fP est le nom de l'arret 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+Renvoit un pointeur sur llist 
+.RE
+.PP
+
+.SS "\fBllist\fP * delete_stop_db (\fBllist\fP * l, int nb_line, char * dest_name, char * stop_name)"
+
+.PP
+Fonction supprimant un arret dans la base de donnees\&. Fonction supprimant un arret dans la base de donnee\&.
+.PP
+\fBParameters:\fP
+.RS 4
+\fIl\fP est un pointeur sur llist\&. 
+.br
+\fInb_line\fP est le numero de la ligne recherchee 
+.br
+\fIdest_name\fP est le nom de la destination 
+.br
+\fIstop_name\fP est le nom de l'arret de bus 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+Pointeur sur llist\&.
+.RE
+.PP
+\fBParameters:\fP
+.RS 4
+\fIl\fP est un pointeur sur llist\&. Permet d'acceder a toutes les informations des lignes\&. 
+.br
+\fInb_line\fP est le numero de la ligne recherchee 
+.br
+\fIdest_name\fP est le nom de la destination 
+.br
+\fIstop_name\fP est le nom de l'arret de bus 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+Pointeur sur llist\&. 
+.RE
+.PP
+
+.SS "\fBllist\fP * read_db (void)"
+
+.PP
+Stocke l'ensemble de la base de donnee (fichiers \&.csv) dans une structure en memoire\&. Dans le principe, cette fonction lit un fichier main\&.csv et en deduit les destinations possibles pour chaque ligne\&. Ensuite, on lit des fichiers \&.csv (format numligne_nom_de_la_dest\&.csv) et les stocke en memoire\&. 
+.PP
+\fBReturns:\fP
+.RS 4
+Renvoit un pointeur sur llist\&. A partir de ce pointeur, il est possible de retrouver l'ensemble des donnees de la TCAT (lignes, destinations associees, arrets, horaires)\&. 
+.RE
+.PP
+
+.SS "char * space_to_underscore (char * str)"
+
+.PP
+Fonction remplaçant les espaces par des underscores\&. Aide notamment a formater le nom des fichiers csv en utilisant le nom de la destination (qui comprend des espaces)\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIstr\fP est une chaine de caracteres pouvant contenir des espaces 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+Renvoit une chaine de caractere ne comprenant aucun espace 
+.RE
+.PP
+
+.SS "void update_dest_db (\fBllist\fP * l, int nb_line, char * old_name, char * new_name)"
+
+.PP
+Fonction permettant de modifier le nom d'une destination\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIl\fP est un pointeur sur llist 
+.br
+\fInb_line\fP est le numero de la ligne 
+.br
+\fIold_name\fP est l'ancien nom de la destination 
+.br
+\fInew_name\fP est le nouveau nom que l'on veut doner a la destination 
+.RE
+.PP
+
+.SS "void update_line_db (\fBllist\fP * l, int old_line, int new_line)"
+
+.PP
+Fonction permettant de modifier une ligne\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIl\fP est un pointeur sur llist 
+.br
+\fIold_line\fP est l'ancien nom de la ligne 
+.br
+\fInew_line\fP est le nouveau nom que l'on veut donner a la ligne 
+.RE
+.PP
+
+.SS "void write_db (\fBllist\fP * l)"
+
+.PP
+Ecrase et reecrit l'ensemble des donnees en memoire dans des fichiers au format \&.csv\&. Dans le principe, cette fonction ecrit un fichier main\&.csv resumant les lignes et leurs destinations possibles\&. Ensuite, on ecrit les fichiers \&.csv (format numligne_nom_de_la_dest\&.csv) independamment en fonction des arrets et de leurs horaires\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIl\fP est un pointeur sur llist\&. A partir de ce pointeur, il est possible de retrouver l'ensemble des donnees de la TCAT (lignes, destinations associees, arrets, horaires) stockees en memoire\&. 
+.RE
+.PP
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for TCAT from the source code\&.
